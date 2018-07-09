@@ -55,18 +55,52 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-@import url('https://fonts.googleapis.com/css?family=Prompt');
+<style lang="css">
 * {
     outline: none;
-    font-family: 'Prompt', sans-serif;
     box-sizing: border-box;
 }
+
 .medium-editor-container {
     max-width: 1000px;
     height: 100%;
     margin: 0 auto;
     position: relative;
-    
+    padding: 2rem;
+    font-size: 1.2rem;
+}
+
+.medium-editor-container h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.1em;
+}
+
+.medium-editor-container h2 {
+    font-size: 2.2em;
+    margin-bottom: 0.1em;
+}
+
+.medium-editor-container h3 {
+    font-size: 1.9em;
+    margin-bottom: 0.1em;
+}
+
+.medium-editor-container h4 {
+    font-size: 1.6em;
+    margin-bottom: 0.1em;
+}
+
+.medium-editor-container h5 {
+    font-size: 1.3em;
+    margin-bottom: 0.1em;
+}
+
+.medium-editor-container h6 {
+    font-size: 1em;
+    margin-bottom: 0.1em;
+}
+
+.medium-editor-container p {
+    margin-bottom: 0.5em;
 }
 </style>
