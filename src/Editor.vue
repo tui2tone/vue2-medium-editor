@@ -1,6 +1,6 @@
 <template>
     <div class="medium-editor-container">
-        <insert-image v-if="editor" class="insert-image-container" :editor="editor"></insert-image>
+        <insert-image v-if="editor" class="insert-image-container" :uploadUrl="uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
         <div class="editor" ref="editor"></div>
     </div>
 </template>
@@ -21,7 +21,8 @@ export default {
   },
   props: [
       'options',
-      'onChange'
+      'onChange',
+      'uploadUrl'
   ],
   computed: {
       editorOptions () {

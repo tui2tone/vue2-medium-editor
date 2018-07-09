@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <medium-editor v-model="content" :onChange="onChange"></medium-editor>
+    <medium-editor 
+        v-model="content" 
+        :onChange="onChange"
+        :uploadUrl="uploadUrl"
+        ></medium-editor>
   </div>
 </template>
 
@@ -11,7 +15,8 @@ export default {
   name: 'app',
   data() {
       return {
-          content: ""
+          content: "",
+          uploadUrl: "http://localhost:3000/v1/upload/image"
       }
   },
   components: {

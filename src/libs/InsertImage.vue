@@ -6,9 +6,19 @@
             </button>
         </div>
         <div class="insert-image-menu"  v-if="isToggle">
-            <button class="btn-toggle" v-on:click="addImage">
+            <file-upload
+                class="btn-toggle"
+                :post-action="uploadUrl"
+                extensions="gif,jpg,jpeg,png,webp"
+                accept="image/png,image/gif,image/jpeg,image/webp"
+                :multiple="true"
+                :size="1024 * 1024 * 10"
+                v-model="files"
+                @input-filter="inputFilter"
+                @input-file="inputFile"
+                ref="upload">
                 <font-awesome-icon :icon="['far', 'images']" />
-            </button>
+            </file-upload>
             <button class="btn-toggle" v-on:click="addEmbed">
                 <font-awesome-icon :icon="['fas', 'code']" />
             </button>
@@ -18,6 +28,7 @@
 
 
 <script>
+import VueUploadComponent from 'vue-upload-component'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -32,21 +43,26 @@ library.add(far)
 
 export default {
     components: {
-        FontAwesomeIcon
+        FontAwesomeIcon,
+        'file-upload': VueUploadComponent
     },
     data() {
         return {
+            focusLine: null,
             isShow: false,
             position: {
                 top: '0',
                 left: '0'
             },
             isToggle: false,
-            embedElm: null
+            embedElm: null,
+            files: []
         }
     },
     props: [
-        'editor'
+        'editor',
+        'uploadUrl',
+        'editorRef'
     ],
     methods: {
         subscribe() {
@@ -65,20 +81,24 @@ export default {
             if(content) {
                 this.isShow = false
                 this.isToggle = false
+                this.focusLine = null
             } else {
                 const currentPos = currentLine.getBoundingClientRect();
                 this.position.top = currentPos.top + 'px'
                 this.position.left = currentPos.left + 'px'
                 this.isShow = true
+                this.focusLine = currentLine
             }
         },
         toggle () {
             this.isToggle = !this.isToggle;
         },
-        addImage() {
+        addImage(url) {
             if(this.isToggle) {
+                this.editorRef.focus()
+                this.editor.selectElement(this.focusLine)
                 this.editor.pasteHTML(`<div class="editor-image">
-                    <img src="http://via.placeholder.com/350x150" />
+                    <img src="${url}" />
                     <input type="text" placeHolder="Image Description">
                 </div><br />`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
                 // const img = this.editor.getSelectedParentElement().querySelector('img')
@@ -100,6 +120,7 @@ export default {
                 // }
                 this.isToggle = false
                 this.isShow = false
+                this.focusLine = null
             }
         },
         addEmbed() {
@@ -115,7 +136,7 @@ export default {
             if (e.keyCode === 13 && this.embedElm) {
                 this.embedElm.innerHTML = this.embedElm.innerHTML.replace("<br>", "")
                 // eslint-disable-next-line no-console
-                console.log(this.embedElm)
+                // console.log(this.embedElm)
                 const embed = new EmbedJS({
                     input: this.embedElm,
                     plugins: [
@@ -126,6 +147,26 @@ export default {
                 })
                 embed.render();
                 this.embedElm = null
+            }
+        },
+        inputFilter(newFile, oldFile, prevent) {
+            if (newFile && !oldFile) {
+                if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
+                    return prevent()
+                }
+                if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
+                    return prevent()
+                }
+            }
+        },
+        inputFile(newFile, oldFile) {
+            if (newFile && !oldFile) {
+                this.$refs.upload.active = true
+            }
+            
+            // Image Upload Successful
+            if(newFile && newFile.success) {
+                this.addImage(newFile.response.url)
             }
         }
     },
@@ -165,9 +206,13 @@ export default {
 }
 
 .insert-image-container .insert-image-menu {
+    display: flex;
 }
 .insert-image-container .insert-image-menu .btn-toggle {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .editor-image {
     display: block;
