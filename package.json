@@ -2,12 +2,18 @@
   "name": "vue2-medium-editor",
   "version": "0.1.0",
   "private": true,
+  "main": "./src/Editor.vue",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "medium-button": "^1.1.4",
+    "medium-editor": "^5.23.3",
+    "medium-editor-insert-plugin": "^2.5.0",
+    "medium-editor-markdown": "^3.0.0",
+    "underscore": "^1.9.1",
     "vue": "^2.5.16"
   },
   "devDependencies": {

@@ -1,28 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <medium-editor v-model="content" :onChange="onChange"></medium-editor>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Editor from './Editor.vue'
 
 export default {
   name: 'app',
+  data() {
+      return {
+          content: ""
+      }
+  },
   components: {
-    HelloWorld
+    'medium-editor': Editor
+  },
+  methods: {
+      onChange() {
+        // eslint-disable-next-line no-console
+        console.log("change", this.content)
+      }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="css">
+@import '~medium-editor/dist/css/medium-editor.css';
+@import '~medium-editor/dist/css/themes/bootstrap.css';
 </style>
