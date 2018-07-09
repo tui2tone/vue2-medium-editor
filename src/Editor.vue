@@ -59,6 +59,7 @@ export default {
 * {
     outline: none;
     font-family: 'Prompt', sans-serif;
+    box-sizing: border-box;
 }
 .medium-editor-container {
     max-width: 1000px;

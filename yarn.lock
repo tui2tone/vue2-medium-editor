@@ -2534,6 +2534,143 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
+embed-js@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-js/-/embed-js-5.0.3.tgz#e7fc35a2d0dcfb4e33af56b118d1aff443356103"
+  dependencies:
+    is-dom "^1.0.9"
+    is-in-browser "1.1.3"
+    just-extend "1.1.27"
+    p-waterfall "^1.0.0"
+
+embed-plugin-base@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-base/-/embed-plugin-base-5.0.3.tgz#5d5c9bcd48d239c2ff742e2ebfb211364dc3cf1b"
+  dependencies:
+    embed-plugin-utilities "^5.0.3"
+    just-extend "1.1.27"
+
+embed-plugin-emoji@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-emoji/-/embed-plugin-emoji-5.0.3.tgz#59e19ec9696fe3e3fb073d0a529c6a89807ee865"
+  dependencies:
+    just-extend "1.1.27"
+    just-kebab-case "^1.0.0"
+    regex-emoji "^2.0.5"
+
+embed-plugin-facebook@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-facebook/-/embed-plugin-facebook-5.0.3.tgz#67ebf4162a9ef82a125616ce98c013da18ac015e"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    embed-plugin-utilities "^5.0.3"
+    just-extend "1.1.27"
+    just-kebab-case "^1.0.0"
+    regex-emoji "^2.0.5"
+
+embed-plugin-github@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-github/-/embed-plugin-github-5.0.3.tgz#a806254dae9b12713b2552c246d6b9a08a7707a5"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    embed-plugin-utilities "^5.0.3"
+    just-extend "1.1.27"
+
+embed-plugin-highlight@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-highlight/-/embed-plugin-highlight-5.0.3.tgz#a9739952c3d69e838297d525d0d83f11e03df3d4"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    is-in-browser "1.1.3"
+    just-extend "1.1.27"
+
+embed-plugin-instagram@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-instagram/-/embed-plugin-instagram-5.0.3.tgz#4afccf6125ccdb193ccc343a3461dc4c65814d84"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    just-extend "1.1.27"
+
+embed-plugin-map@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-map/-/embed-plugin-map-5.0.3.tgz#fd114bf361e367047e2efac8ac53766bee74a78b"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    embed-plugin-utilities "^5.0.3"
+    just-extend "1.1.27"
+
+embed-plugin-media@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-media/-/embed-plugin-media-5.0.3.tgz#ed805ae13d88c8b786a4234cf0f7bdd1d8b3aa66"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    just-extend "1.1.27"
+
+embed-plugin-noembed@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-noembed/-/embed-plugin-noembed-5.0.3.tgz#f8e8a751a1b8c0b74f6f81ef8a36b987c44eb86a"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    embed-plugin-utilities "^5.0.3"
+    is-dom "1.0.9"
+    is-in-browser "1.1.3"
+    just-extend "1.1.27"
+    just-flatten-it "1.1.23"
+    just-pluck-it "1.1.21"
+
+embed-plugin-twitter@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-twitter/-/embed-plugin-twitter-5.0.3.tgz#c2c3b87bf8649d11010c18d96bd0418ef4c29be7"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    embed-plugin-utilities "^5.0.3"
+    fetch-jsonp "1.1.1"
+    is-dom "1.0.9"
+    is-in-browser "1.1.3"
+    just-extend "1.1.27"
+
+embed-plugin-url@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-url/-/embed-plugin-url-5.0.3.tgz#b3f3e67db93f91c997edb3e680df589c5d738c54"
+  dependencies:
+    html-linkify "1.2.2"
+    just-extend "1.1.27"
+
+embed-plugin-utilities@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-utilities/-/embed-plugin-utilities-5.0.3.tgz#d791eeff01edb7f65b6610c8a6b13e8506e50f42"
+  dependencies:
+    is-in-browser "1.1.3"
+    just-extend "1.1.27"
+    just-truncate "1.0.1"
+
+embed-plugin-youtube@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-plugin-youtube/-/embed-plugin-youtube-5.0.3.tgz#5f635fc1e3552680c0b7574a3f15739beef14daf"
+  dependencies:
+    embed-plugin-base "^5.0.3"
+    embed-plugin-utilities "^5.0.3"
+    is-dom "1.0.9"
+    just-extend "1.1.27"
+    youtube-regex "1.0.5"
+
+embed-preset-basic@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/embed-preset-basic/-/embed-preset-basic-5.0.3.tgz#6b9ab9018b71cb077456dd094414041de3b069b1"
+  dependencies:
+    embed-plugin-emoji "^5.0.3"
+    embed-plugin-facebook "^5.0.3"
+    embed-plugin-github "^5.0.3"
+    embed-plugin-highlight "^5.0.3"
+    embed-plugin-instagram "^5.0.3"
+    embed-plugin-map "^5.0.3"
+    embed-plugin-media "^5.0.3"
+    embed-plugin-noembed "^5.0.3"
+    embed-plugin-twitter "^5.0.3"
+    embed-plugin-url "^5.0.3"
+    embed-plugin-youtube "^5.0.3"
+    just-extend "1.1.27"
+
 emojis-list@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-2.1.0.tgz#4daa4d9db00f9819880c79fa457ae5b09a1fd389"
@@ -2965,6 +3102,10 @@ faye-websocket@~0.11.0:
   resolved "https://registry.yarnpkg.com/faye-websocket/-/faye-websocket-0.11.1.tgz#f0efe18c4f56e4f40afc7e06c719fd5ee6188f38"
   dependencies:
     websocket-driver ">=0.5.1"
+
+fetch-jsonp@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/fetch-jsonp/-/fetch-jsonp-1.1.1.tgz#b7b9fd7d3a4f74d38389f5ea2f2d0f46c34510e4"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -3453,6 +3594,16 @@ html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
 
+html-escape@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/html-escape/-/html-escape-1.0.0.tgz#db2db5526a64c04a41c7677de3056c0d1381d465"
+
+html-linkify@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/html-linkify/-/html-linkify-1.2.2.tgz#875f7d0773a793a5de6ae306b7ddf21ff2a3347b"
+  dependencies:
+    html-escape "1.0.0"
+
 html-minifier@^3.2.3:
   version "3.5.18"
   resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.18.tgz#fc8b02826cbbafc6de19a103c41c830a91cffe5a"
@@ -3748,6 +3899,10 @@ is-directory@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/is-directory/-/is-directory-0.3.1.tgz#61339b6f2475fc772fd9c9d83f5c8575dc154ae1"
 
+is-dom@1.0.9, is-dom@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/is-dom/-/is-dom-1.0.9.tgz#483832d52972073de12b9fe3f60320870da8370d"
+
 is-dotfile@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/is-dotfile/-/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
@@ -3809,6 +3964,10 @@ is-glob@^4.0.0:
   resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.0.tgz#9521c76845cc2610a85203ddf080a958c2ffabc0"
   dependencies:
     is-extglob "^2.1.1"
+
+is-in-browser@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/is-in-browser/-/is-in-browser-1.1.3.tgz#56ff4db683a078c6082eb95dad7dc62e1d04f835"
 
 is-number@^2.1.0:
   version "2.1.0"
@@ -4091,6 +4250,26 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
+
+just-extend@1.1.27:
+  version "1.1.27"
+  resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-1.1.27.tgz#ec6e79410ff914e472652abfa0e603c03d60e905"
+
+just-flatten-it@1.1.23:
+  version "1.1.23"
+  resolved "https://registry.yarnpkg.com/just-flatten-it/-/just-flatten-it-1.1.23.tgz#ad4d50982552978a5cf8c59510ca5378fdec0994"
+
+just-kebab-case@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/just-kebab-case/-/just-kebab-case-1.0.0.tgz#b1cf0415ca20efddca120c2aa3773f4e16565a36"
+
+just-pluck-it@1.1.21:
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/just-pluck-it/-/just-pluck-it-1.1.21.tgz#8675fba91aabf68cb56f3131fae8ee7dc04cb0f3"
+
+just-truncate@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/just-truncate/-/just-truncate-1.0.1.tgz#b8961bab6e4a7b94d19e39a8a10318d07e0eb52a"
 
 killable@^1.0.0:
   version "1.0.0"
@@ -4974,9 +5153,19 @@ p-map@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.2.0.tgz#e4e94f311eabbc8633a1e79908165fca26241b6b"
 
+p-reduce@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-reduce/-/p-reduce-1.0.0.tgz#18c2b0dd936a4690a529f8231f58a0fdb6a47dfa"
+
 p-try@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-1.0.0.tgz#cbc79cdbaf8fd4228e13f621f2b1a237c1b207b3"
+
+p-waterfall@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-waterfall/-/p-waterfall-1.0.0.tgz#7ed94b3ceb3332782353af6aae11aa9fc235bb00"
+  dependencies:
+    p-reduce "^1.0.0"
 
 pako@~1.0.5:
   version "1.0.6"
@@ -5713,6 +5902,10 @@ regex-cache@^0.4.2:
   resolved "https://registry.yarnpkg.com/regex-cache/-/regex-cache-0.4.4.tgz#75bdc58a2a1496cec48a12835bc54c8d562336dd"
   dependencies:
     is-equal-shallow "^0.1.3"
+
+regex-emoji@^2.0.5:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/regex-emoji/-/regex-emoji-2.0.6.tgz#c5d0a1bf546aa76d24088221815ab4a7c6f13d33"
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
@@ -7189,3 +7382,7 @@ yorkie@^1.0.3:
     is-ci "^1.0.10"
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
+
+youtube-regex@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/youtube-regex/-/youtube-regex-1.0.5.tgz#5f27facab0b7d66d01eebc7afc9a6a69cf61abd8"
