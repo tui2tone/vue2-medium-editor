@@ -1,6 +1,7 @@
 <template>
     <div class="medium-editor-container">
         <insert-image v-if="editor" class="insert-image-container" :uploadUrl="uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
+        <list-handler v-if="editor" :editor="editor"></list-handler>
         <div class="editor" ref="editor"></div>
     </div>
 </template>
@@ -8,6 +9,7 @@
 <script>
 import MediumEditor from 'medium-editor';
 import InsertImage from './libs/InsertImage';
+import ListHandler from './libs/ListHandler';
 import _ from 'underscore';
 
 export default {
@@ -16,6 +18,7 @@ export default {
       return {
           editor: null,
           defaultOptions: {
+              forcePlainText: false
           }
       }
   },
@@ -30,7 +33,8 @@ export default {
       }
   },
   components: {
-      InsertImage
+      InsertImage,
+      ListHandler
   },
   mounted () {
       this.createElm();
@@ -102,5 +106,16 @@ export default {
 
 .medium-editor-container p {
     margin-bottom: 0.5em;
+}
+.medium-editor-container ul {
+    list-style: disc;
+}
+.medium-editor-container ul li {
+    margin-bottom: 0.2em
+}
+.medium-editor-container ol {
+}
+.medium-editor-container ol li {
+    margin-bottom: 0.2em
 }
 </style>
