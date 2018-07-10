@@ -81,21 +81,25 @@ export default {
 
 .medium-editor-container h2 {
     font-size: 2.2em;
+    margin-top: 0.2em;
     margin-bottom: 0.1em;
 }
 
 .medium-editor-container h3 {
     font-size: 1.9em;
+    margin-top: 0.2em;
     margin-bottom: 0.1em;
 }
 
 .medium-editor-container h4 {
     font-size: 1.6em;
+    margin-top: 0.2em;
     margin-bottom: 0.1em;
 }
 
 .medium-editor-container h5 {
     font-size: 1.3em;
+    margin-top: 0.2em;
     margin-bottom: 0.1em;
 }
 
@@ -105,17 +109,19 @@ export default {
 }
 
 .medium-editor-container p {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 .medium-editor-container ul {
+    margin-left: 30px;
     list-style: disc;
 }
 .medium-editor-container ul li {
-    margin-bottom: 0.2em
+    margin-bottom: 0.5em
 }
 .medium-editor-container ol {
+    margin-left: 30px;
 }
 .medium-editor-container ol li {
-    margin-bottom: 0.2em
+    margin-bottom: 0.5em
 }
 </style>

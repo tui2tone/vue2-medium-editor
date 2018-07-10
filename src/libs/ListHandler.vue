@@ -43,8 +43,6 @@ export default {
 
             const key = e.keyCode || e.charCode;
             if( key == 8 || key == 46 ) {
-                // eslint-disable-next-line no-console
-                console.log(currentLine.outerHTML)
 
                 if(currentLine.outerHTML == '<li><br></li>') {
                     this.isLastBeforeLi = true
@@ -57,10 +55,6 @@ export default {
                     this.editor.pasteHTML(`<p><br><br></p>`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
                 }
             }
-
-            // if( key == 13 ) {
-            //     this.isLastBeforeLi = true
-            // }
         }
     },
     mounted() {
