@@ -28,13 +28,16 @@
         <div class="image-handler" v-if="handler.isShow" v-bind:style="handler.position">
             <div class="image-hander-menu">
                 <button class="btn-toggle" v-on:click="imageSizing('is-normal')">
-                    <img src="../assets/icons/image-align-normal.png">
+                    <img src="../assets/icons/image-align-normal-active.png" v-if="handler.currentSize == 'is-normal'">
+                    <img src="../assets/icons/image-align-normal.png" v-if="handler.currentSize != 'is-normal'">
                 </button>
                 <button class="btn-toggle" v-on:click="imageSizing('is-expand')">
-                    <img src="../assets/icons/image-align-expand.png">
+                    <img src="../assets/icons/image-align-expand-active.png" v-if="handler.currentSize == 'is-expand'">
+                    <img src="../assets/icons/image-align-expand.png" v-if="handler.currentSize != 'is-expand'">
                 </button>
                 <button class="btn-toggle" v-on:click="imageSizing('is-full')">
-                    <img src="../assets/icons/image-align-full.png">
+                    <img src="../assets/icons/image-align-full-active.png" v-if="handler.currentSize == 'is-full'">
+                    <img src="../assets/icons/image-align-full.png" v-if="handler.currentSize != 'is-full'">
                 </button>
             </div>
         </div>
@@ -77,6 +80,7 @@ export default {
             handler: {
                 currentLine: null,
                 currentImg: null,
+                currentSize: 'is-normal',
                 position: {
                     top: '0'
                 },
@@ -110,6 +114,14 @@ export default {
             
                 for (let i = 0; i < editorImages.length; i++) {
                     editorImages[i].onclick = function() {
+                        const className = this.className
+                        if(className.indexOf('expand') > -1) {
+                            handlerVm.handler.currentSize = 'is-expand'
+                        } else if(className.indexOf('full') > -1) {
+                            handlerVm.handler.currentSize = 'is-full'
+                        } else {
+                            handlerVm.handler.currentSize = 'is-normal'
+                        }
                         const img = this.querySelector('img')
                         handlerVm.handler.currentLine = this;
                         handlerVm.handler.isShow = !handlerVm.handler.isShow;
@@ -156,6 +168,15 @@ export default {
 
                 this.window.scrollTo(0, currentPos.top);
                 this.handler.currentLine.onclick = function() {
+                        const className = this.className
+                    if(className.indexOf('expand') > -1) {
+                        handlerVm.handler.currentSize = 'is-expand'
+                    } else if(className.indexOf('full') > -1) {
+                        handlerVm.handler.currentSize = 'is-full'
+                    } else {
+                        handlerVm.handler.currentSize = 'is-normal'
+                    }
+
                     const img = this.querySelector('img')
                     handlerVm.handler.currentLine = this;
                     handlerVm.handler.isShow = !handlerVm.handler.isShow;
@@ -169,6 +190,7 @@ export default {
             }
         },
         imageSizing(sizing) {
+            this.handler.currentSize = sizing
             this.handler.currentLine.className = 'editor-image ' + sizing 
         },
         addEmbed() {
