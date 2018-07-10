@@ -68,13 +68,18 @@ export default {
 }
 
 .medium-editor-container {
-    max-width: 1000px;
     height: 100%;
     margin: 0 auto;
     position: relative;
     padding: 2rem 0;
     font-size: 1.2rem;
 }
+
+.medium-editor-container p {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 
 .medium-editor-container h1 {
     font-size: 2.5em;

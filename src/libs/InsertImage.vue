@@ -257,8 +257,8 @@ export default {
 }
 .editor-image {
     display: block;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    max-width: 1000px;
+    margin: 2rem auto;
 }
 
 .editor-image img {
@@ -269,6 +269,12 @@ export default {
 
 .editor-image img:hover {
     cursor: pointer;
+}
+.editor-image.is-expand {
+    max-width: 1200px;
+}
+.editor-image.is-full {
+    max-width: 100%;
 }
 .editor-image input {
     margin: 0 auto;
