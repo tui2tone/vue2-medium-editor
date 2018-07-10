@@ -53,7 +53,6 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import EmbedJS from 'embed-js'
 import github from 'embed-plugin-github'
-import url from 'embed-plugin-url'
 import noembed from 'embed-plugin-noembed'
 
 library.add(fas)
@@ -102,6 +101,7 @@ export default {
             this.editor.subscribe('editableClick', this.detectImageDescription)
 
             this.subscribeImageInitial()
+            this.subscribeEmbedInitial()
         },
         unsubscribe() {
             this.editor.unsubscribe('editableKeyup', this.detectShowToggle)
@@ -136,6 +136,19 @@ export default {
                             handlerVm.handler.position.top = currentPos.top + 'px'
                         })
                     }
+                }
+            })
+        },
+        subscribeEmbedInitial() {
+            setTimeout(() => {
+                const editorEmbeds = this.editor.getFocusedElement().getElementsByClassName('editor-embed')
+                for (let i = 0; i < editorEmbeds.length; i++) {
+                    const nextElm = editorEmbeds[0].nextElementSibling
+                    const url = nextElm.getAttribute('data-src')
+                    nextElm.outerHTML = ''
+                    editorEmbeds[0].innerHTML = url
+
+                    this.renderEmbed(editorEmbeds[0])
                 }
             })
         },
@@ -235,19 +248,22 @@ export default {
             }
         },
         detectEmbed(e) {
-            if (e.keyCode === 13 && this.embedElm) {
+            if (e.keyCode === 13 && this.insert.embedElm) {
                 this.insert.embedElm.innerHTML = this.insert.embedElm.innerHTML.replace("<br>", "")
-                const embed = new EmbedJS({
-                    input: this.insert.embedElm,
-                    plugins: [
-                        url(),
-                        github(),
-                        noembed()
-                    ]
-                })
-                embed.render();
+                this.renderEmbed(this.insert.embedElm)
                 this.insert.embedElm = null
             }
+        },
+        renderEmbed(elm) {
+            const embed = new EmbedJS({
+                input: elm,
+                plugins: [
+                    github(),
+                    noembed()
+                ],
+                inlineEmbed: 'all'
+            })
+            embed.render();
         },
         inputFilter(newFile, oldFile, prevent) {
             if (newFile && !oldFile) {

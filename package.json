@@ -15,7 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.1.0",
     "@fortawesome/vue-fontawesome": "^0.1.0",
     "bulma": "^0.7.1",
-    "embed-js": "^5.0.3",
+    "embed-js": "4.2.3",
     "embed-plugin-github": "^5.0.3",
     "embed-plugin-noembed": "^5.0.3",
     "embed-plugin-url": "^5.0.3",
