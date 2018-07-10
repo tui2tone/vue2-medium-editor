@@ -3,9 +3,12 @@
 Vue2 component for Medium Editor wrapper with https://github.com/yabwe/medium-editor
 But all plugins are re-writing in Vue.js
 
+### DEMO
+
 ## Features
 - Medium like editor
 - Image uploader and description
+    - Image width configable width for normal / expand / full screen sizing
 - Embed
 
 ## Usage
@@ -45,6 +48,12 @@ export default {
 </script>
 ```
 
+Don't forget to include css file in your project
+```
+medium-editor/dist/css/medium-editor.css
+vue2-medium-editor/src/themes/default.css
+```
+
 ### Nuxt.js Usage
 
 create a plugins
@@ -68,7 +77,7 @@ include a css file
 ```
 css: [
     'medium-editor/dist/css/medium-editor.css',
-    'medium-editor/dist/css/themes/bootstrap.css'
+    'vue2-medium-editor/src/themes/default.css'
 ]
 ```
 
