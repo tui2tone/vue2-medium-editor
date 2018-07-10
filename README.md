@@ -3,14 +3,15 @@
 Vue2 component for Medium Editor wrapper with https://github.com/yabwe/medium-editor
 But all plugins are re-writing in Vue.js
 
-### DEMO
+[Demo](https://tui2tone.github.io/vue2-medium-editor/)
 
+ps. a demo work for all features except upload photo because i doesn't deploy a serverside.
 
 ## Features
 - Medium like editor
 - Image uploader and description
     - Image width configable width for normal / expand / full screen sizing
-- Embed
+- Embed Gist
 
 ## Usage
 
