@@ -72,7 +72,7 @@ export default {
     height: 100%;
     margin: 0 auto;
     position: relative;
-    padding: 2rem;
+    padding: 2rem 0;
     font-size: 1.2rem;
 }
 
