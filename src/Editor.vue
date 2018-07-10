@@ -18,8 +18,8 @@ export default {
       return {
           editor: null,
           defaultOptions: {
-              forcePlainText: false,
-              placeholder: {
+            forcePlainText: false,
+            placeholder: {
                 text: 'Write something great!!'
             }
           },
