@@ -21,6 +21,9 @@ export default {
             forcePlainText: false,
             placeholder: {
                 text: 'Write something great!!'
+            },
+            toolbar: {
+                buttons: ['bold', 'italic', 'quote', 'h1', 'h2', 'h3', 'h4', 'h5'],
             }
           },
           hasContent: false
@@ -28,7 +31,8 @@ export default {
   },
   props: [
       'options',
-      'onChange'
+      'onChange',
+      'prefill'
   ],
   computed: {
       editorOptions () {
@@ -45,6 +49,14 @@ export default {
   methods: {
       createElm() {
         this.editor = new MediumEditor(this.$refs.editor, this.editorOptions)
+
+        if(this.prefill) {
+            this.editor.pasteHTML(this.prefill, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
+            const content = this.editor.getContent()
+            // eslint-disable-next-line no-console
+            console.log("change", content)
+            this.$emit('input', content)
+        }
 
         this.editor.subscribe('editableInput', () => {
             const content = this.editor.getContent()
@@ -96,7 +108,8 @@ export default {
 .medium-editor-container h5,
 .medium-editor-container h6,
 .medium-editor-container ul,
-.medium-editor-container ol {
+.medium-editor-container ol,
+.medium-editor-container blockquote {
     max-width: 1000px;
     margin: 0 auto;
 }
@@ -177,6 +190,14 @@ export default {
 }
 .medium-editor-container ol li {
     margin-bottom: 0.5em
+}
+
+.medium-editor-container blockquote {
+    border-left: 3px solid #3B3E3E;
+    padding-left: 30px;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+    font-style: italic;
 }
 
 </style>

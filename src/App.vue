@@ -2,6 +2,7 @@
   <div id="app">
     <medium-editor 
         v-model="content"
+        :prefill="defaultValue"
         :options="options"
         :onChange="onChange"
         ></medium-editor>
@@ -15,7 +16,8 @@ export default {
   name: 'app',
   data() {
       return {
-          content: "",
+          content: ``,
+          defaultValue: `<p>Test</p>`,
           options: {
             uploadUrl: "http://localhost:3000/v1/upload/image"
           }
