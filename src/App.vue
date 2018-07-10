@@ -44,7 +44,7 @@ export default {
   methods: {
       onChange() {
         // eslint-disable-next-line no-console
-        console.log("change", this.content)
+        console.log("change")
       }
   }
 }

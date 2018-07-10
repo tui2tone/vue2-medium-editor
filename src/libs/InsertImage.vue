@@ -90,7 +90,8 @@ export default {
     props: [
         'editor',
         'uploadUrl',
-        'editorRef'
+        'editorRef',
+        'onChange'
     ],
     methods: {
         subscribe() {
@@ -236,7 +237,9 @@ export default {
         },
         imageSizing(sizing) {
             this.handler.currentSize = sizing
-            this.handler.currentLine.className = 'editor-image ' + sizing 
+            this.handler.currentLine.className = 'editor-image ' + sizing
+
+            this.onChange()
         },
         addEmbed() {
             if(this.insert.isToggle) {

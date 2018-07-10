@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="medium-editor-container" v-if="!readOnly">
-            <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
-            <list-handler v-if="editor" :editor="editor"></list-handler>
+            <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :onChange="triggerChange" :editorRef="$refs.editor" :editor="editor"></insert-image>
+            <list-handler v-if="editor" :editor="editor" :onChange="triggerChange"></list-handler>
             <div class="editor" v-bind:class="{'has-content': hasContent}" v-html="prefill" ref="editor">
             </div>
         </div>
@@ -65,26 +65,27 @@ export default {
             this.$refs.editor.focus()
         }
 
-        this.editor.subscribe('editableInput', () => {
-            const content = this.editor.getContent()
-
-            setTimeout(() => {
-                if(content) {
-                    this.hasContent = true
-                } else {
-                    this.hasContent = false
-                }
-            }, 1000)
-            
-            this.$emit('input', content)
-            
-            if(this.onChange) {
-                this.onChange(content)
-            }
-        })
+        this.editor.subscribe('editableInput', this.triggerChange)
       },
       destroyElm() {
         this.editor.destroy()
+      },
+      triggerChange() {
+        const content = this.editor.getContent()
+
+        setTimeout(() => {
+            if(content) {
+                this.hasContent = true
+            } else {
+                this.hasContent = false
+            }
+        }, 1000)
+        
+        this.$emit('input', content)
+        
+        if(this.onChange) {
+            this.onChange(content)
+        }
       }
   },
   destroyed() {
