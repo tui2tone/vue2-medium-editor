@@ -28,13 +28,13 @@
         <div class="image-handler" v-if="handler.isShow" v-bind:style="handler.position">
             <div class="image-hander-menu">
                 <button class="btn-toggle" v-on:click="imageSizing('is-normal')">
-                    <font-awesome-icon :icon="['fas', 'code']" />
+                    <img src="../assets/icons/image-align-normal.png">
                 </button>
                 <button class="btn-toggle" v-on:click="imageSizing('is-expand')">
-                    <font-awesome-icon :icon="['fas', 'code']" />
+                    <img src="../assets/icons/image-align-expand.png">
                 </button>
                 <button class="btn-toggle" v-on:click="imageSizing('is-full')">
-                    <font-awesome-icon :icon="['fas', 'code']" />
+                    <img src="../assets/icons/image-align-full.png">
                 </button>
             </div>
         </div>
@@ -101,6 +101,7 @@ export default {
             this.editor.unsubscribe('editableClick', this.detectShowToggle)
         },
         detectShowToggle() {
+
             const currentLine = this.editor.getSelectedParentElement()
             const content = currentLine.innerHTML.replace(/^(<br\s*\/?>)+/,'').trim()
             if(content) {
@@ -120,6 +121,7 @@ export default {
         },
         addImage(url) {
             if(this.insert.isToggle) {
+                const handlerVm = this;
                 this.editorRef.focus()
                 this.editor.selectElement(this.insert.focusLine)
                 this.editor.pasteHTML(`<div class="editor-image">
@@ -128,10 +130,12 @@ export default {
                 </div><br />`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
                 this.handler.currentLine = this.editor.getSelectedParentElement().previousElementSibling
                 this.handler.currentImg = this.editor.getSelectedParentElement().previousElementSibling.querySelector('img')
-                this.handler.currentImg.onclick = () => {
-                    this.handler.isShow = !this.handler.isShow;
-                    const currentPos = this.handler.currentImg.getBoundingClientRect();
-                    this.handler.position.top = currentPos.top + 'px'
+                this.handler.currentLine.onclick = function() {
+                    const img = this.querySelector('img')
+                    handlerVm.handler.currentLine = this;
+                    handlerVm.handler.isShow = !handlerVm.handler.isShow;
+                    const currentPos = img.getBoundingClientRect();
+                    handlerVm.handler.position.top = currentPos.top + 'px'
                 }
 
                 this.insert.isToggle = false
@@ -185,6 +189,9 @@ export default {
             if(newFile && newFile.success) {
                 this.addImage(newFile.response.url)
             }
+        },
+        handleScroll() {
+            this.handler.isShow = false
         }
     },
     mounted() {
@@ -192,6 +199,12 @@ export default {
     },
     destroyed() {
         this.unsubscribe()
+    },
+    beforeMount () {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy () {
+        window.removeEventListener('scroll', this.handleScroll);
     }
 }
 </script>
