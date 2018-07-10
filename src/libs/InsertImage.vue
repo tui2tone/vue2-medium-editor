@@ -120,6 +120,7 @@ export default {
                     editorImages[i].onclick = function() {
                         setTimeout(() => {
                             const className = this.className
+                            this.className = className.replace('is-focus', '') + ' is-focus'
                             if(className.indexOf('expand') > -1) {
                                 handlerVm.handler.currentSize = 'is-expand'
                             } else if(className.indexOf('full') > -1) {
@@ -150,20 +151,20 @@ export default {
                     descriptionElm.className = 'editor-image-description'
                 }
 
-                editorImages[i].onclick = function() {
-                    const descriptionElm = this
-                    setTimeout(() => {
-                        descriptionElm.className = 'editor-image-description is-focus'
-                    }, 200)
-                }
             }
         },
-        detectShowToggle() {
+        detectShowToggle(e) {
             if(this.insert.isShow && this.insert.isToggle) {
                 this.toggle();
             }
 
             this.handler.isShow = false
+            if(e.target.className.indexOf('editor-image-description') <= -1) {
+                const editorImages = this.editor.getFocusedElement().getElementsByClassName('editor-image')
+                for (let i = 0; i < editorImages.length; i++) {
+                    editorImages[i].className = editorImages[i].className.replace('is-focus', '')
+                }
+            }
 
             const currentLine = this.editor.getSelectedParentElement()
             const content = currentLine.innerHTML.replace(/^(<br\s*\/?>)+/,'').trim()
@@ -391,7 +392,11 @@ export default {
     z-index: 0;
 }
 
-.medium-editor-container .editor-image-description.is-focus {
+.medium-editor-container .editor-image + .editor-image-description.is-empty {
+    display: none;
+}
+
+.medium-editor-container .editor-image.is-focus + .editor-image-description.is-empty {
     display: block;
 }
 
