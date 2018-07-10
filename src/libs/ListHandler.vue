@@ -30,11 +30,7 @@ export default {
         },
         detectList(e) {
             this.currentLine = this.editor.getSelectedParentElement()
-
             const matchList = this.currentLine.innerHTML.match(/^(-&nbsp;).*/g)
-
-            // eslint-disable-next-line no-console
-            console.log(this.currentLine.innerHTML, matchList)
             
             if(matchList && matchList.length > 0) {
                 const content = this.currentLine.innerHTML.replace(/^(-&nbsp;)/g, "")

@@ -1,27 +1,42 @@
 <template>
-    <div class="insert-image-container" v-if="isShow" v-bind:style="position">
-        <div class="insert-image-toggle">
-            <button v-on:click="toggle" class="btn-toggle">
-                <font-awesome-icon icon="plus" />
-            </button>
+    <div class="image-handler-container">
+        <div class="insert-image-container" v-if="insert.isShow" v-bind:style="insert.position">
+            <div class="insert-image-toggle">
+                <button v-on:click="toggle" class="btn-toggle">
+                    <font-awesome-icon icon="plus" />
+                </button>
+            </div>
+            <div class="insert-image-menu"  v-if="insert.isToggle">
+                <file-upload
+                    class="btn-toggle"
+                    :post-action="uploadUrl"
+                    extensions="gif,jpg,jpeg,png,webp"
+                    accept="image/png,image/gif,image/jpeg,image/webp"
+                    :multiple="true"
+                    :size="1024 * 1024 * 10"
+                    v-model="insert.files"
+                    @input-filter="inputFilter"
+                    @input-file="inputFile"
+                    ref="upload">
+                    <font-awesome-icon :icon="['far', 'images']" />
+                </file-upload>
+                <button class="btn-toggle" v-on:click="addEmbed">
+                    <font-awesome-icon :icon="['fas', 'code']" />
+                </button>
+            </div>
         </div>
-        <div class="insert-image-menu"  v-if="isToggle">
-            <file-upload
-                class="btn-toggle"
-                :post-action="uploadUrl"
-                extensions="gif,jpg,jpeg,png,webp"
-                accept="image/png,image/gif,image/jpeg,image/webp"
-                :multiple="true"
-                :size="1024 * 1024 * 10"
-                v-model="files"
-                @input-filter="inputFilter"
-                @input-file="inputFile"
-                ref="upload">
-                <font-awesome-icon :icon="['far', 'images']" />
-            </file-upload>
-            <button class="btn-toggle" v-on:click="addEmbed">
-                <font-awesome-icon :icon="['fas', 'code']" />
-            </button>
+        <div class="image-handler" v-if="handler.isShow" v-bind:style="handler.position">
+            <div class="image-hander-menu">
+                <button class="btn-toggle" v-on:click="imageSizing('is-normal')">
+                    <font-awesome-icon :icon="['fas', 'code']" />
+                </button>
+                <button class="btn-toggle" v-on:click="imageSizing('is-expand')">
+                    <font-awesome-icon :icon="['fas', 'code']" />
+                </button>
+                <button class="btn-toggle" v-on:click="imageSizing('is-full')">
+                    <font-awesome-icon :icon="['fas', 'code']" />
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -48,15 +63,25 @@ export default {
     },
     data() {
         return {
-            focusLine: null,
-            isShow: false,
-            position: {
-                top: '0',
-                left: '0'
+            insert: {
+                position: {
+                    top: '0',
+                    left: '0'
+                },
+                isShow: false,
+                isToggle: false,
+                embedElm: null,
+                files: [],
+                focusLine: null
             },
-            isToggle: false,
-            embedElm: null,
-            files: []
+            handler: {
+                currentLine: null,
+                currentImg: null,
+                position: {
+                    top: '0'
+                },
+                isShow: false
+            }
         }
     },
     props: [
@@ -79,66 +104,58 @@ export default {
             const currentLine = this.editor.getSelectedParentElement()
             const content = currentLine.innerHTML.replace(/^(<br\s*\/?>)+/,'').trim()
             if(content) {
-                this.isShow = false
-                this.isToggle = false
-                this.focusLine = null
+                this.insert.isShow = false
+                this.insert.isToggle = false
+                this.insert.focusLine = null
             } else {
                 const currentPos = currentLine.getBoundingClientRect();
-                this.position.top = currentPos.top + 'px'
-                this.position.left = currentPos.left + 'px'
-                this.isShow = true
-                this.focusLine = currentLine
+                this.insert.position.top = currentPos.top + 'px'
+                this.insert.position.left = currentPos.left + 'px'
+                this.insert.isShow = true
+                this.insert.focusLine = currentLine
             }
         },
         toggle () {
-            this.isToggle = !this.isToggle;
+            this.insert.isToggle = !this.insert.isToggle;
         },
         addImage(url) {
-            if(this.isToggle) {
+            if(this.insert.isToggle) {
                 this.editorRef.focus()
-                this.editor.selectElement(this.focusLine)
+                this.editor.selectElement(this.insert.focusLine)
                 this.editor.pasteHTML(`<div class="editor-image">
                     <img src="${url}" />
                     <input type="text" placeHolder="Image Description">
                 </div><br />`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
-                // const img = this.editor.getSelectedParentElement().querySelector('img')
-                // img.className = 'editor-image'
-                // const input = this.editor.getSelectedParentElement().querySelector('input')
-                // input.className = 'editor-image-input'
-                // img.onclick = () => {
-                    
-                // }
+                this.handler.currentLine = this.editor.getSelectedParentElement().previousElementSibling
+                this.handler.currentImg = this.editor.getSelectedParentElement().previousElementSibling.querySelector('img')
+                this.handler.currentImg.onclick = () => {
+                    this.handler.isShow = !this.handler.isShow;
+                    const currentPos = this.handler.currentImg.getBoundingClientRect();
+                    this.handler.position.top = currentPos.top + 'px'
+                }
 
-                // input.onclick = () => {
-                    
-                // }
-
-                // input.onkeypress = (e) => {
-                //     if (e.keyCode === 13) {
-                //         this.editor.getFocusedElement().focus()
-                //     }
-                // }
-                this.isToggle = false
-                this.isShow = false
-                this.focusLine = null
+                this.insert.isToggle = false
+                this.insert.isShow = false
+                this.insert.focusLine = null
             }
         },
+        imageSizing(sizing) {
+            this.handler.currentLine.className = 'editor-image ' + sizing 
+        },
         addEmbed() {
-            if(this.isToggle) {
+            if(this.insert.isToggle) {
                 this.editor.pasteHTML(`<p class="editor-embed"><br></p>`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
-                this.embedElm = this.editor.getSelectedParentElement()
+                this.insert.embedElm = this.editor.getSelectedParentElement()
 
-                this.isToggle = false
-                this.isShow = false
+                this.insert.isToggle = false
+                this.insert.isShow = false
             }
         },
         detectEmbed(e) {
             if (e.keyCode === 13 && this.embedElm) {
-                this.embedElm.innerHTML = this.embedElm.innerHTML.replace("<br>", "")
-                // eslint-disable-next-line no-console
-                // console.log(this.embedElm)
+                this.insert.embedElm.innerHTML = this.insert.embedElm.innerHTML.replace("<br>", "")
                 const embed = new EmbedJS({
-                    input: this.embedElm,
+                    input: this.insert.embedElm,
                     plugins: [
                         url(),
                         github(),
@@ -146,7 +163,7 @@ export default {
                     ]
                 })
                 embed.render();
-                this.embedElm = null
+                this.insert.embedElm = null
             }
         },
         inputFilter(newFile, oldFile, prevent) {
@@ -191,11 +208,9 @@ export default {
     position: fixed;
     left: 100px;
     top: 100px;
-    transform: translate(-50px, -8px);
+    transform: translate(-54px, -7px);
 }
-.insert-image-container .insert-image-toggle {
 
-}
 .insert-image-container .btn-toggle {
     border: 1px solid #DDD;
     width: 40px;
@@ -203,6 +218,32 @@ export default {
     border-radius: 50%;
     font-size: 16px;
     color: #555;
+}
+
+.image-handler {
+    display: flex;
+    position: fixed;
+    left: 50%;
+    top: 100px;
+    transform: translate(-50%, -20px);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.image-handler .btn-toggle {
+    border: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: #FFF;
+    background-color: transparent;
+}
+.image-handler .btn-toggle:hover {
+    cursor: pointer;
+    color: #00BD6A;
 }
 
 .insert-image-container .insert-image-menu {

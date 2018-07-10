@@ -1,6 +1,6 @@
 <template>
     <div class="medium-editor-container">
-        <insert-image v-if="editor" class="insert-image-container" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
+        <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
         <list-handler v-if="editor" :editor="editor"></list-handler>
         <div class="editor" ref="editor"></div>
     </div>
