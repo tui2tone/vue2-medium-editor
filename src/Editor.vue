@@ -2,7 +2,8 @@
     <div class="medium-editor-container">
         <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
         <list-handler v-if="editor" :editor="editor"></list-handler>
-        <div class="editor" v-bind:class="{'has-content': hasContent}" ref="editor"></div>
+        <div class="editor" v-bind:class="{'has-content': hasContent}" v-html="prefill" ref="editor">
+        </div>
     </div>
 </template>
 
@@ -51,11 +52,8 @@ export default {
         this.editor = new MediumEditor(this.$refs.editor, this.editorOptions)
 
         if(this.prefill) {
-            this.editor.pasteHTML(this.prefill, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
-            const content = this.editor.getContent()
-            // eslint-disable-next-line no-console
-            console.log("change", content)
-            this.$emit('input', content)
+            this.hasContent = true
+            this.$refs.editor.focus()
         }
 
         this.editor.subscribe('editableInput', () => {

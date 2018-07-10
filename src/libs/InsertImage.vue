@@ -94,11 +94,30 @@ export default {
             this.editor.subscribe('editableKeyup', this.detectShowToggle)
             this.editor.subscribe('editableKeyup', this.detectEmbed)
             this.editor.subscribe('editableClick', this.detectShowToggle)
+
+            this.subscribeImageInitial()
         },
         unsubscribe() {
             this.editor.unsubscribe('editableKeyup', this.detectShowToggle)
             this.editor.unsubscribe('editableKeyup', this.detectEmbed)
             this.editor.unsubscribe('editableClick', this.detectShowToggle)
+        },
+        subscribeImageInitial() {
+            const handlerVm = this;
+
+            setTimeout(() => {
+                const editorImages = this.editor.getFocusedElement().getElementsByClassName('editor-image')
+            
+                for (let i = 0; i < editorImages.length; i++) {
+                    editorImages[i].onclick = function() {
+                        const img = this.querySelector('img')
+                        handlerVm.handler.currentLine = this;
+                        handlerVm.handler.isShow = !handlerVm.handler.isShow;
+                        const currentPos = img.getBoundingClientRect();
+                        handlerVm.handler.position.top = currentPos.top + 'px'
+                    }
+                }
+            })
         },
         detectShowToggle() {
             if(this.insert.isShow && this.insert.isToggle) {
