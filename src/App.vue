@@ -36,5 +36,5 @@ export default {
 <style lang="css">
 @import '~bulma/css/bulma.css';
 @import '~medium-editor/dist/css/medium-editor.css';
-@import '~medium-editor/dist/css/themes/bootstrap.css';
+@import './themes/default.css';
 </style>

@@ -2,7 +2,7 @@
     <div class="medium-editor-container">
         <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
         <list-handler v-if="editor" :editor="editor"></list-handler>
-        <div class="editor" ref="editor"></div>
+        <div class="editor" v-bind:class="{'has-content': hasContent}" ref="editor"></div>
     </div>
 </template>
 
@@ -18,8 +18,12 @@ export default {
       return {
           editor: null,
           defaultOptions: {
-              forcePlainText: false
-          }
+              forcePlainText: false,
+              placeholder: {
+                text: 'Write something great!!'
+            }
+          },
+          hasContent: false
       }
   },
   props: [
@@ -44,6 +48,15 @@ export default {
 
         this.editor.subscribe('editableInput', () => {
             const content = this.editor.getContent()
+
+            setTimeout(() => {
+                if(content) {
+                    this.hasContent = true
+                } else {
+                    this.hasContent = false
+                }
+            }, 1000)
+            
             this.$emit('input', content)
             
             if(this.onChange) {
@@ -75,9 +88,43 @@ export default {
     font-size: 1.2rem;
 }
 
-.medium-editor-container p {
+.medium-editor-container p, 
+.medium-editor-container h1, 
+.medium-editor-container h2,
+.medium-editor-container h3,
+.medium-editor-container h4,
+.medium-editor-container h5,
+.medium-editor-container h6,
+.medium-editor-container ul,
+.medium-editor-container ol {
     max-width: 1000px;
     margin: 0 auto;
+}
+
+.medium-editor-container .medium-editor-element:empty, .medium-editor-container .medium-editor-placeholder {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.medium-editor-container .editor {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.medium-editor-container .medium-editor-placeholder::after {
+    color: #BBB;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: block;
+}
+
+.medium-editor-container .editor.has-content {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.medium-editor-container .editor.has-content.medium-editor-placeholder::after {
+    display: none;
 }
 
 
@@ -131,4 +178,5 @@ export default {
 .medium-editor-container ol li {
     margin-bottom: 0.5em
 }
+
 </style>

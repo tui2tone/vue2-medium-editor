@@ -101,6 +101,9 @@ export default {
             this.editor.unsubscribe('editableClick', this.detectShowToggle)
         },
         detectShowToggle() {
+            if(this.insert.isShow && this.insert.isToggle) {
+                this.toggle();
+            }
 
             const currentLine = this.editor.getSelectedParentElement()
             const content = currentLine.innerHTML.replace(/^(<br\s*\/?>)+/,'').trim()
@@ -130,6 +133,9 @@ export default {
                 </div><br />`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
                 this.handler.currentLine = this.editor.getSelectedParentElement().previousElementSibling
                 this.handler.currentImg = this.editor.getSelectedParentElement().previousElementSibling.querySelector('img')
+                const currentPos = this.handler.currentImg.getBoundingClientRect();
+
+                this.window.scrollTo(0, currentPos.top);
                 this.handler.currentLine.onclick = function() {
                     const img = this.querySelector('img')
                     handlerVm.handler.currentLine = this;
@@ -192,6 +198,15 @@ export default {
         },
         handleScroll() {
             this.handler.isShow = false
+
+            if(this.insert.isShow) {
+                const currentLine = this.editor.getSelectedParentElement()
+                const currentPos = currentLine.getBoundingClientRect();
+                this.insert.position.top = currentPos.top + 'px'
+                this.insert.position.left = currentPos.left + 'px'
+                this.insert.isShow = true
+                this.insert.focusLine = currentLine
+            }
         }
     },
     mounted() {
@@ -201,6 +216,7 @@ export default {
         this.unsubscribe()
     },
     beforeMount () {
+        this.window = window;
         window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy () {
@@ -231,6 +247,7 @@ export default {
     border-radius: 50%;
     font-size: 16px;
     color: #555;
+    background-color: #FFF;
 }
 
 .image-handler {
