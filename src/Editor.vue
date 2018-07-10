@@ -1,8 +1,14 @@
 <template>
-    <div class="medium-editor-container">
-        <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
-        <list-handler v-if="editor" :editor="editor"></list-handler>
-        <div class="editor" v-bind:class="{'has-content': hasContent}" v-html="prefill" ref="editor">
+    <div>
+        <div class="medium-editor-container" v-if="!readOnly">
+            <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :editorRef="$refs.editor" :editor="editor"></insert-image>
+            <list-handler v-if="editor" :editor="editor"></list-handler>
+            <div class="editor" v-bind:class="{'has-content': hasContent}" v-html="prefill" ref="editor">
+            </div>
+        </div>
+        <div class="medium-editor-container" v-if="readOnly">
+            <div class="editor read-only has-content" v-html="prefill">
+            </div>
         </div>
     </div>
 </template>
@@ -33,7 +39,8 @@ export default {
   props: [
       'options',
       'onChange',
-      'prefill'
+      'prefill',
+      'readOnly'
   ],
   computed: {
       editorOptions () {
@@ -45,7 +52,9 @@ export default {
       ListHandler
   },
   mounted () {
-      this.createElm();
+      if(!this.readOnly) {
+        this.createElm();
+      }
   },
   methods: {
       createElm() {
@@ -110,6 +119,11 @@ export default {
 .medium-editor-container blockquote {
     max-width: 1000px;
     margin: 0 auto;
+}
+.medium-editor-container ul,
+.medium-editor-container ol {
+    margin-left: auto !important;
+    padding-left: 30px;
 }
 
 .medium-editor-container .medium-editor-element:empty, .medium-editor-container .medium-editor-placeholder {

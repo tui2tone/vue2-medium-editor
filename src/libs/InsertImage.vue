@@ -98,6 +98,8 @@ export default {
             this.editor.subscribe('editableKeyup', this.detectShowToggle)
             this.editor.subscribe('editableKeyup', this.detectEmbed)
             this.editor.subscribe('editableClick', this.detectShowToggle)
+            this.editor.subscribe('editableKeyup', this.detectImageDescription)
+            this.editor.subscribe('editableClick', this.detectImageDescription)
 
             this.subscribeImageInitial()
         },
@@ -105,6 +107,8 @@ export default {
             this.editor.unsubscribe('editableKeyup', this.detectShowToggle)
             this.editor.unsubscribe('editableKeyup', this.detectEmbed)
             this.editor.unsubscribe('editableClick', this.detectShowToggle)
+            this.editor.unsubscribe('editableKeyup', this.detectImageDescription)
+            this.editor.unsubscribe('editableClick', this.detectImageDescription)
         },
         subscribeImageInitial() {
             const handlerVm = this;
@@ -114,27 +118,52 @@ export default {
             
                 for (let i = 0; i < editorImages.length; i++) {
                     editorImages[i].onclick = function() {
-                        const className = this.className
-                        if(className.indexOf('expand') > -1) {
-                            handlerVm.handler.currentSize = 'is-expand'
-                        } else if(className.indexOf('full') > -1) {
-                            handlerVm.handler.currentSize = 'is-full'
-                        } else {
-                            handlerVm.handler.currentSize = 'is-normal'
-                        }
-                        const img = this.querySelector('img')
-                        handlerVm.handler.currentLine = this;
-                        handlerVm.handler.isShow = !handlerVm.handler.isShow;
-                        const currentPos = img.getBoundingClientRect();
-                        handlerVm.handler.position.top = currentPos.top + 'px'
+                        setTimeout(() => {
+                            const className = this.className
+                            if(className.indexOf('expand') > -1) {
+                                handlerVm.handler.currentSize = 'is-expand'
+                            } else if(className.indexOf('full') > -1) {
+                                handlerVm.handler.currentSize = 'is-full'
+                            } else {
+                                handlerVm.handler.currentSize = 'is-normal'
+                            }
+                        
+                            const img = this.querySelector('img')
+                            handlerVm.handler.currentLine = this;
+                            handlerVm.handler.isShow = !handlerVm.handler.isShow;
+                            const currentPos = img.getBoundingClientRect();
+                            handlerVm.handler.position.top = currentPos.top + 'px'
+                        })
                     }
                 }
             })
+        },
+        detectImageDescription() {
+            const editorImages = this.editor.getFocusedElement().getElementsByClassName('editor-image-description')
+            for (let i = 0; i < editorImages.length; i++) {
+                const descriptionElm = editorImages[i]
+                const description = descriptionElm.innerHTML.trim()
+
+                if(!description || description == "<br>") {
+                    descriptionElm.className = 'editor-image-description is-empty'
+                } else {
+                    descriptionElm.className = 'editor-image-description'
+                }
+
+                editorImages[i].onclick = function() {
+                    const descriptionElm = this
+                    setTimeout(() => {
+                        descriptionElm.className = 'editor-image-description is-focus'
+                    }, 200)
+                }
+            }
         },
         detectShowToggle() {
             if(this.insert.isShow && this.insert.isToggle) {
                 this.toggle();
             }
+
+            this.handler.isShow = false
 
             const currentLine = this.editor.getSelectedParentElement()
             const content = currentLine.innerHTML.replace(/^(<br\s*\/?>)+/,'').trim()
@@ -159,16 +188,18 @@ export default {
                 this.editorRef.focus()
                 this.editor.selectElement(this.insert.focusLine)
                 this.editor.pasteHTML(`<div class="editor-image">
-                    <img src="${url}" />
-                    <input type="text" placeHolder="Image Description">
-                </div><br />`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
-                this.handler.currentLine = this.editor.getSelectedParentElement().previousElementSibling
-                this.handler.currentImg = this.editor.getSelectedParentElement().previousElementSibling.querySelector('img')
+                        <img src="${url}" />
+                    </div>
+                    <div class="editor-image-description"><br></div>
+                    <br />`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
+
+                this.handler.currentLine = this.editor.getSelectedParentElement().previousElementSibling.previousElementSibling
+                this.handler.currentImg = this.editor.getSelectedParentElement().previousElementSibling.previousElementSibling.querySelector('img')
                 const currentPos = this.handler.currentImg.getBoundingClientRect();
 
-                this.window.scrollTo(0, currentPos.top);
+                this.window.scrollTo(0, currentPos.top - currentPos.x);
                 this.handler.currentLine.onclick = function() {
-                        const className = this.className
+                    const className = this.className
                     if(className.indexOf('expand') > -1) {
                         handlerVm.handler.currentSize = 'is-expand'
                     } else if(className.indexOf('full') > -1) {
@@ -269,11 +300,11 @@ export default {
 <style lang="css">
 @import url('https://gist.github.com/assets/embed-0af287a4b5c981db301049e56f06e5d3.css');
 
-* {
+.medium-editor-container * {
     outline: none;
 }
 
-.insert-image-container {
+.medium-editor-container .insert-image-container {
     display: flex;
     position: fixed;
     left: 100px;
@@ -281,7 +312,7 @@ export default {
     transform: translate(-54px, -7px);
 }
 
-.insert-image-container .btn-toggle {
+.medium-editor-container .insert-image-container .btn-toggle {
     border: 1px solid #DDD;
     width: 40px;
     height: 40px;
@@ -291,7 +322,7 @@ export default {
     background-color: #FFF;
 }
 
-.image-handler {
+.medium-editor-container .image-handler {
     display: flex;
     position: fixed;
     left: 50%;
@@ -303,7 +334,7 @@ export default {
     padding-right: 10px;
 }
 
-.image-handler .btn-toggle {
+.medium-editor-container .image-handler .btn-toggle {
     border: 0;
     width: 40px;
     height: 40px;
@@ -312,42 +343,68 @@ export default {
     color: #FFF;
     background-color: transparent;
 }
-.image-handler .btn-toggle:hover {
+.medium-editor-container .image-handler .btn-toggle:hover {
     cursor: pointer;
     color: #00BD6A;
 }
 
-.insert-image-container .insert-image-menu {
+.medium-editor-container .insert-image-container .insert-image-menu {
     display: flex;
 }
-.insert-image-container .insert-image-menu .btn-toggle {
+.medium-editor-container .insert-image-container .insert-image-menu .btn-toggle {
     margin-left: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.editor-image {
+.medium-editor-container .editor-image {
     display: block;
     max-width: 1000px;
     margin: 2rem auto;
 }
 
-.editor-image img {
+.medium-editor-container .editor-image img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-.editor-image img:hover {
+.medium-editor-container .editor-image-description {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: -1rem;
+    font-size: 0.8rem;
+    color: #999;
+    position: relative;
+}
+
+.medium-editor-container .editor-image-description.is-empty::after { 
+    content: "Image Description";
+    color: #BBB;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.medium-editor-container .editor-image-description.is-focus {
+    display: block;
+}
+
+.medium-editor-container .editor-image img:hover {
     cursor: pointer;
 }
-.editor-image.is-expand {
+.medium-editor-container .editor-image.is-expand {
     max-width: 1200px;
 }
-.editor-image.is-full {
+.medium-editor-container .editor-image.is-full {
     max-width: 100%;
 }
-.editor-image input {
+.medium-editor-container .editor-image input {
     margin: 0 auto;
     border: 0;
     display: block;
@@ -360,15 +417,16 @@ export default {
     margin-bottom: 2rem;
 }
 
-.editor-embed-container.is-inactive {
+.medium-editor-container .editor-embed-container.is-inactive {
     display: none;
 }
 
-.editor-embed-input.is-inactive {
+.medium-editor-container .editor-embed-input.is-inactive {
     display: none;
 }
 
-.editor-embed > a {
+.medium-editor-container .editor-embed > a {
     display: none;
 }
+
 </style>
