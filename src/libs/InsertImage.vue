@@ -363,6 +363,13 @@ export default {
     color: #FFF;
     background-color: transparent;
 }
+
+.medium-editor-container .image-handler .btn-toggle img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 .medium-editor-container .image-handler .btn-toggle:hover {
     cursor: pointer;
     color: #00BD6A;
