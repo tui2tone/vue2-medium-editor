@@ -212,3 +212,145 @@
 .medium-editor-placeholder:after {
     color: #222526;
 }
+
+@import url('https://gist.github.com/assets/embed-0af287a4b5c981db301049e56f06e5d3.css');
+
+.medium-editor-container * {
+    outline: none;
+}
+
+.medium-editor-container .insert-image-container {
+    display: flex;
+    position: fixed;
+    left: 100px;
+    top: 100px;
+    transform: translate(-54px, -7px);
+}
+
+.medium-editor-container .insert-image-container .btn-toggle {
+    border: 1px solid #DDD;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: #555;
+    background-color: #FFF;
+}
+
+.medium-editor-container .image-handler {
+    display: flex;
+    position: fixed;
+    left: 50%;
+    top: 100px;
+    transform: translate(-50%, -20px);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.medium-editor-container .image-handler .btn-toggle {
+    border: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: #FFF;
+    background-color: transparent;
+}
+
+.medium-editor-container .image-handler .btn-toggle img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.medium-editor-container .image-handler .btn-toggle:hover {
+    cursor: pointer;
+    color: #00BD6A;
+}
+
+.medium-editor-container .insert-image-container .insert-image-menu {
+    display: flex;
+}
+.medium-editor-container .insert-image-container .insert-image-menu .btn-toggle {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.medium-editor-container .editor-image {
+    display: block;
+    max-width: 1000px;
+    margin: 2rem auto;
+}
+
+.medium-editor-container .editor-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.medium-editor-container .editor-image-description {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: -1rem;
+    font-size: 0.8rem;
+    color: #999;
+    position: relative;
+}
+
+.medium-editor-container .editor-image-description.is-empty::after { 
+    content: "Image Description";
+    color: #BBB;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.medium-editor-container .editor-image + .editor-image-description.is-empty {
+    display: none;
+}
+
+.medium-editor-container .editor-image.is-focus + .editor-image-description.is-empty {
+    display: block;
+}
+
+.medium-editor-container .editor-image img:hover {
+    cursor: pointer;
+}
+.medium-editor-container .editor-image.is-expand {
+    max-width: 1200px;
+}
+.medium-editor-container .editor-image.is-full {
+    max-width: 100%;
+}
+.medium-editor-container .editor-image input {
+    margin: 0 auto;
+    border: 0;
+    display: block;
+    font-size: 0.7rem;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    color: #888;
+    margin-bottom: 2rem;
+}
+
+.medium-editor-container .editor-embed-container.is-inactive {
+    display: none;
+}
+
+.medium-editor-container .editor-embed-input.is-inactive {
+    display: none;
+}
+
+.medium-editor-container .editor-embed > a {
+    display: none;
+}
