@@ -115,56 +115,64 @@ export default {
             const handlerVm = this;
 
             setTimeout(() => {
-                const editorImages = this.editor.getFocusedElement().getElementsByClassName('editor-image')
-            
-                for (let i = 0; i < editorImages.length; i++) {
-                    editorImages[i].onclick = function() {
-                        setTimeout(() => {
-                            const className = this.className
-                            this.className = className.replace('is-focus', '') + ' is-focus'
-                            if(className.indexOf('expand') > -1) {
-                                handlerVm.handler.currentSize = 'is-expand'
-                            } else if(className.indexOf('full') > -1) {
-                                handlerVm.handler.currentSize = 'is-full'
-                            } else {
-                                handlerVm.handler.currentSize = 'is-normal'
-                            }
-                        
-                            const img = this.querySelector('img')
-                            handlerVm.handler.currentLine = this;
-                            handlerVm.handler.isShow = !handlerVm.handler.isShow;
-                            const currentPos = img.getBoundingClientRect();
-                            handlerVm.handler.position.top = currentPos.top + 'px'
-                        })
+                const focused = this.editor.getFocusedElement()
+                if(focused) {
+                    const editorImages = focused.getElementsByClassName('editor-image')
+                
+                    for (let i = 0; i < editorImages.length; i++) {
+                        editorImages[i].onclick = function() {
+                            setTimeout(() => {
+                                const className = this.className
+                                this.className = className.replace('is-focus', '') + ' is-focus'
+                                if(className.indexOf('expand') > -1) {
+                                    handlerVm.handler.currentSize = 'is-expand'
+                                } else if(className.indexOf('full') > -1) {
+                                    handlerVm.handler.currentSize = 'is-full'
+                                } else {
+                                    handlerVm.handler.currentSize = 'is-normal'
+                                }
+                            
+                                const img = this.querySelector('img')
+                                handlerVm.handler.currentLine = this;
+                                handlerVm.handler.isShow = !handlerVm.handler.isShow;
+                                const currentPos = img.getBoundingClientRect();
+                                handlerVm.handler.position.top = currentPos.top + 'px'
+                            })
+                        }
                     }
                 }
             })
         },
         subscribeEmbedInitial() {
             setTimeout(() => {
-                const editorEmbeds = this.editor.getFocusedElement().getElementsByClassName('editor-embed')
-                for (let i = 0; i < editorEmbeds.length; i++) {
-                    const nextElm = editorEmbeds[0].nextElementSibling
-                    const url = nextElm.getAttribute('data-src')
-                    nextElm.outerHTML = ''
-                    editorEmbeds[0].innerHTML = url
+                const focused = this.editor.getFocusedElement()
+                if(focused) {
+                    const editorEmbeds = focused.getElementsByClassName('editor-embed')
+                    for (let i = 0; i < editorEmbeds.length; i++) {
+                        const nextElm = editorEmbeds[0].nextElementSibling
+                        const url = nextElm.getAttribute('data-src')
+                        nextElm.outerHTML = ''
+                        editorEmbeds[0].innerHTML = url
 
-                    this.renderEmbed(editorEmbeds[0])
+                        this.renderEmbed(editorEmbeds[0])
+                    }
                 }
             })
         },
         detectImageDescription() {
-            const editorImages = this.editor.getFocusedElement().getElementsByClassName('editor-image-description')
-            for (let i = 0; i < editorImages.length; i++) {
-                const descriptionElm = editorImages[i]
-                const description = descriptionElm.innerHTML.trim()
+            const focused = this.editor.getFocusedElement()
+            if(focused) {
+                const editorImages = focused.getElementsByClassName('editor-image-description')
+                for (let i = 0; i < editorImages.length; i++) {
+                    const descriptionElm = editorImages[i]
+                    const description = descriptionElm.innerHTML.trim()
 
-                if(!description || description == "<br>") {
-                    descriptionElm.className = 'editor-image-description is-empty'
-                } else {
-                    descriptionElm.className = 'editor-image-description'
+                    if(!description || description == "<br>") {
+                        descriptionElm.className = 'editor-image-description is-empty'
+                    } else {
+                        descriptionElm.className = 'editor-image-description'
+                    }
                 }
-
             }
         },
         detectShowToggle(e) {
@@ -214,20 +222,23 @@ export default {
 
                 this.window.scrollTo(0, currentPos.top - currentPos.x);
                 this.handler.currentLine.onclick = function() {
-                    const className = this.className
-                    if(className.indexOf('expand') > -1) {
-                        handlerVm.handler.currentSize = 'is-expand'
-                    } else if(className.indexOf('full') > -1) {
-                        handlerVm.handler.currentSize = 'is-full'
-                    } else {
-                        handlerVm.handler.currentSize = 'is-normal'
-                    }
+                    setTimeout(() => {
+                        const className = this.className
+                        this.className = className.replace('is-focus', '') + ' is-focus'
+                        if(className.indexOf('expand') > -1) {
+                            handlerVm.handler.currentSize = 'is-expand'
+                        } else if(className.indexOf('full') > -1) {
+                            handlerVm.handler.currentSize = 'is-full'
+                        } else {
+                            handlerVm.handler.currentSize = 'is-normal'
+                        }
 
-                    const img = this.querySelector('img')
-                    handlerVm.handler.currentLine = this;
-                    handlerVm.handler.isShow = !handlerVm.handler.isShow;
-                    const currentPos = img.getBoundingClientRect();
-                    handlerVm.handler.position.top = currentPos.top + 'px'
+                        const img = this.querySelector('img')
+                        handlerVm.handler.currentLine = this;
+                        handlerVm.handler.isShow = !handlerVm.handler.isShow;
+                        const currentPos = img.getBoundingClientRect();
+                        handlerVm.handler.position.top = currentPos.top + 'px'
+                    })
                 }
 
                 this.insert.isToggle = false
