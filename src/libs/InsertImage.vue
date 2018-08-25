@@ -91,8 +91,7 @@ export default {
         'editor',
         'uploadUrl',
         'editorRef',
-        'onChange',
-        'uploadedCallback'
+        'onChange'
     ],
     methods: {
         subscribe() {
@@ -207,6 +206,8 @@ export default {
             this.insert.isToggle = !this.insert.isToggle;
         },
         addImage(url) {
+            this.$emit('uploaded', url);
+
             if(this.insert.isToggle) {
                 const handlerVm = this;
                 this.editorRef.focus()
@@ -245,8 +246,6 @@ export default {
                 this.insert.isToggle = false
                 this.insert.isShow = false
                 this.insert.focusLine = null
-
-                this.uploadedCallback.emit(url)
             }
         },
         imageSizing(sizing) {

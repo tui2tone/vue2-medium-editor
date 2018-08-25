@@ -6,7 +6,7 @@
         :prefill="defaultValue"
         :options="options"
         :onChange="onChange"
-        :uploadCallback="uploadCallback"
+        v-on:uploaded="uploadCallback"
         ></medium-editor>
   </div>
 </template>

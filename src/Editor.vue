@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="medium-editor-container" v-if="!readOnly">
-            <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :onChange="triggerChange" :uploadedCallback="uploadedCallback" :editorRef="$refs.editor" :editor="editor"></insert-image>
+            <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :onChange="triggerChange" v-on:uploaded="uploadedCallback" :editorRef="$refs.editor" :editor="editor"></insert-image>
             <list-handler v-if="editor" :editor="editor" :onChange="triggerChange"></list-handler>
             <div class="editor" v-bind:class="{'has-content': hasContent}" v-html="prefill" ref="editor">
             </div>
@@ -40,8 +40,7 @@ export default {
       'options',
       'onChange',
       'prefill',
-      'readOnly',
-      'uploadedCallback'
+      'readOnly'
   ],
   computed: {
       editorOptions () {
@@ -87,6 +86,9 @@ export default {
         if(this.onChange) {
             this.onChange(content)
         }
+      },
+      uploadedCallback(url) {
+          this.$emit('uploaded', url)
       }
   },
   destroyed() {
