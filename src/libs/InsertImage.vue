@@ -91,7 +91,8 @@ export default {
         'editor',
         'uploadUrl',
         'editorRef',
-        'onChange'
+        'onChange',
+        'uploadedCallback'
     ],
     methods: {
         subscribe() {
@@ -244,6 +245,8 @@ export default {
                 this.insert.isToggle = false
                 this.insert.isShow = false
                 this.insert.focusLine = null
+
+                this.uploadedCallback.emit(url)
             }
         },
         imageSizing(sizing) {

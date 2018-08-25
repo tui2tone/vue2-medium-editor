@@ -6,6 +6,7 @@
         :prefill="defaultValue"
         :options="options"
         :onChange="onChange"
+        :uploadCallback="uploadCallback"
         ></medium-editor>
   </div>
 </template>
@@ -45,6 +46,9 @@ export default {
       onChange() {
         // eslint-disable-next-line no-console
         console.log("change")
+      },
+      uploadCallback(url) {
+        console.log("uploaded", url)
       }
   }
 }
