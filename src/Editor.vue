@@ -61,7 +61,11 @@ export default {
         this.editor = new MediumEditor(this.$refs.editor, this.editorOptions)
 
         if(this.prefill) {
-            this.hasContent = true
+            if(/<[a-z][\s\S]*>/i.test(this.prefill)) {
+                this.hasContent = true
+            } else {
+                this.hasContent = false
+            }
             this.$refs.editor.focus()
         }
 
@@ -74,12 +78,12 @@ export default {
         const content = this.editor.getContent()
 
         setTimeout(() => {
-            if(content) {
+            if(/<[a-z][\s\S]*>/i.test(content)) {
                 this.hasContent = true
             } else {
                 this.hasContent = false
             }
-        }, 1000)
+        }, 0)
         
         this.$emit('input', content)
         
