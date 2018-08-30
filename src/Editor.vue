@@ -7,96 +7,118 @@
             </div>
         </div>
         <div class="medium-editor-container" v-if="readOnly">
-            <div class="editor read-only has-content" v-html="prefill">
+            <div class="editor read-only has-content" ref="content" v-html="prefill">
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import MediumEditor from 'medium-editor';
-import InsertImage from './libs/InsertImage';
-import ListHandler from './libs/ListHandler';
-import _ from 'underscore';
+import MediumEditor from "medium-editor";
+import InsertImage from "./libs/InsertImage";
+import ListHandler from "./libs/ListHandler";
+import _ from "underscore";
+import EmbedJS from "embed-js";
+import github from "embed-plugin-github";
+import noembed from "embed-plugin-noembed";
 
 export default {
-  name: 'medium-editor',
+  name: "medium-editor",
   data() {
-      return {
-          editor: null,
-          defaultOptions: {
-            forcePlainText: false,
-            placeholder: {
-                text: 'Write something great!!'
-            },
-            toolbar: {
-                buttons: ['bold', 'italic', 'quote', 'h1', 'h2', 'h3', 'h4', 'h5'],
-            }
-          },
-          hasContent: false
-      }
+    return {
+      editor: null,
+      defaultOptions: {
+        forcePlainText: false,
+        placeholder: {
+          text: "Write something great!!"
+        },
+        toolbar: {
+          buttons: ["bold", "italic", "quote", "h1", "h2", "h3", "h4", "h5"]
+        }
+      },
+      hasContent: false
+    };
   },
-  props: [
-      'options',
-      'onChange',
-      'prefill',
-      'readOnly'
-  ],
+  props: ["options", "onChange", "prefill", "readOnly"],
   computed: {
-      editorOptions () {
-        return _.extend(this.defaultOptions, this.options);
-      }
+    editorOptions() {
+      return _.extend(this.defaultOptions, this.options);
+    }
   },
   components: {
-      InsertImage,
-      ListHandler
+    InsertImage,
+    ListHandler
   },
-  mounted () {
-      if(!this.readOnly) {
-        this.createElm();
-      }
+  mounted() {
+    if (!this.readOnly) {
+      this.createElm();
+    } else {
+      this.renderReadMode();
+    }
   },
   methods: {
-      createElm() {
-        this.editor = new MediumEditor(this.$refs.editor, this.editorOptions)
+    createElm() {
+      this.editor = new MediumEditor(this.$refs.editor, this.editorOptions);
 
-        if(this.prefill) {
-            if(/<[a-z][\s\S]*>/i.test(this.prefill)) {
-                this.hasContent = true
-            } else {
-                this.hasContent = false
-            }
-            this.$refs.editor.focus()
+      if (this.prefill) {
+        if (/<[a-z][\s\S]*>/i.test(this.prefill)) {
+          this.hasContent = true;
+        } else {
+          this.hasContent = false;
         }
-
-        this.editor.subscribe('editableInput', this.triggerChange)
-      },
-      destroyElm() {
-        this.editor.destroy()
-      },
-      triggerChange() {
-        const content = this.editor.getContent()
-
-        setTimeout(() => {
-            if(/<[a-z][\s\S]*>/i.test(content)) {
-                this.hasContent = true
-            } else {
-                this.hasContent = false
-            }
-        }, 0)
-        
-        this.$emit('input', content)
-        
-        if(this.onChange) {
-            this.onChange(content)
-        }
-      },
-      uploadedCallback(url) {
-          this.$emit('uploaded', url)
+        this.$refs.editor.focus();
       }
+
+      this.editor.subscribe("editableInput", this.triggerChange);
+    },
+    destroyElm() {
+      this.editor.destroy();
+    },
+    triggerChange() {
+      const content = this.editor.getContent();
+
+      setTimeout(() => {
+        if (/<[a-z][\s\S]*>/i.test(content)) {
+          this.hasContent = true;
+        } else {
+          this.hasContent = false;
+        }
+      }, 0);
+
+      this.$emit("input", content);
+
+      if (this.onChange) {
+        this.onChange(content);
+      }
+    },
+    uploadedCallback(url) {
+      this.$emit("uploaded", url);
+    },
+    renderReadMode() {
+        // Render Embed
+      const editorEmbeds = this.$refs.content.getElementsByClassName(
+        "editor-embed"
+      );
+      for (let i = 0; i < editorEmbeds.length; i++) {
+        const nextElm = editorEmbeds[0].nextElementSibling;
+        const url = nextElm.getAttribute("data-src");
+        nextElm.outerHTML = "";
+        editorEmbeds[0].innerHTML = url;
+
+        this.renderEmbed(editorEmbeds[0]);
+      }
+    },
+    renderEmbed(elm) {
+      const embed = new EmbedJS({
+        input: elm,
+        plugins: [github(), noembed()],
+        inlineEmbed: "all"
+      });
+      embed.render();
+    }
   },
   destroyed() {
-      this.destroyElm()
+    this.destroyElm();
   }
-}
+};
 </script>
