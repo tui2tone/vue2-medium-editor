@@ -189,8 +189,10 @@ export default {
             }
 
             const currentLine = this.editor.getSelectedParentElement()
+            const outerHtml = currentLine.outerHTML
+            const isList = outerHtml.indexOf('<li>') > -1
             const content = currentLine.innerHTML.replace(/^(<br\s*\/?>)+/,'').trim()
-            if(content) {
+            if(content || isList) {
                 this.insert.isShow = false
                 this.insert.isToggle = false
                 this.insert.focusLine = null
