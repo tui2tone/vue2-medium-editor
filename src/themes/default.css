@@ -109,6 +109,11 @@
     margin-bottom: 0.5em
 }
 
+.medium-editor-container iframe{
+    width: 1px;
+    min-width: 100%;
+}
+
 .medium-editor-container blockquote {
     border-left: 3px solid #3B3E3E;
     padding-left: 30px;

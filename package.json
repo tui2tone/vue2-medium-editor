@@ -21,7 +21,10 @@
     "embed-plugin-url": "^5.0.3",
     "embed-plugin-youtube": "^5.0.3",
     "embed-preset-basic": "^5.0.3",
+    "iframe-resizer": "^3.6.1",
     "medium-editor": "^5.23.3",
+    "pure-gist-embed": "^1.0.3",
+    "randomstring": "^1.1.5",
     "underscore": "^1.9.1",
     "vue": "^2.5.16",
     "vue-upload-component": "^2.8.9"
@@ -42,8 +45,8 @@
       "eslint:recommended"
     ],
     "rules": {
-        "no-console": 0,
-        "indent": 0
+      "no-console": 0,
+      "indent": 0
     },
     "parserOptions": {
       "parser": "babel-eslint"

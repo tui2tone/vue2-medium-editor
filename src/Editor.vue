@@ -18,9 +18,7 @@ import MediumEditor from "medium-editor";
 import InsertImage from "./libs/InsertImage";
 import ListHandler from "./libs/ListHandler";
 import _ from "underscore";
-import EmbedJS from "embed-js";
-import github from "embed-plugin-github";
-import noembed from "embed-plugin-noembed";
+import Gist from 'pure-gist-embed';
 
 export default {
   name: "medium-editor",
@@ -99,22 +97,19 @@ export default {
       const editorEmbeds = this.$refs.content.getElementsByClassName(
         "editor-embed"
       );
-      for (let i = 0; i < editorEmbeds.length; i++) {
-        const nextElm = editorEmbeds[0].nextElementSibling;
-        const url = nextElm.getAttribute("data-src");
-        nextElm.outerHTML = "";
-        editorEmbeds[0].innerHTML = url;
+        for (let i = 0; i < editorEmbeds.length; i++) {
+            const nextElm = editorEmbeds[i].nextElementSibling
+            const link = editorEmbeds[i].getElementsByTagName('a')[0]
+            if(link) {
+                const url = link.getAttribute('href')
+                nextElm.outerHTML = ''
 
-        this.renderEmbed(editorEmbeds[0]);
-      }
+                this.renderEmbed(url, editorEmbeds[i])
+            }
+        }
     },
-    renderEmbed(elm) {
-      const embed = new EmbedJS({
-        input: elm,
-        plugins: [github(), noembed()],
-        inlineEmbed: "all"
-      });
-      embed.render();
+    renderEmbed(url, elm) {
+        Gist.embed(url, elm)
     }
   },
   destroyed() {

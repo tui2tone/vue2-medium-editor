@@ -46,14 +46,13 @@
 
 
 <script>
-import VueUploadComponent from 'vue-upload-component'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import EmbedJS from 'embed-js'
-import github from 'embed-plugin-github'
-import noembed from 'embed-plugin-noembed'
+import VueUploadComponent from 'vue-upload-component';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import Gist from 'pure-gist-embed';
+import randomstring from 'randomstring';
 
 library.add(fas)
 library.add(far)
@@ -148,13 +147,16 @@ export default {
                 const focused = this.editor.getFocusedElement()
                 if(focused) {
                     const editorEmbeds = focused.getElementsByClassName('editor-embed')
-                    for (let i = 0; i < editorEmbeds.length; i++) {
-                        const nextElm = editorEmbeds[0].nextElementSibling
-                        const url = nextElm.getAttribute('data-src')
-                        nextElm.outerHTML = ''
-                        editorEmbeds[0].innerHTML = url
 
-                        this.renderEmbed(editorEmbeds[0])
+                    for (let i = 0; i < editorEmbeds.length; i++) {
+                        const nextElm = editorEmbeds[i].nextElementSibling
+                        const link = editorEmbeds[i].getElementsByTagName('a')[0]
+                        if(link) {
+                            const url = link.getAttribute('href')
+                            nextElm.outerHTML = ''
+
+                            this.renderEmbed(url, editorEmbeds[i])
+                        }
                     }
                 }
             })
@@ -267,21 +269,35 @@ export default {
         },
         detectEmbed(e) {
             if (e.keyCode === 13 && this.insert.embedElm) {
-                this.insert.embedElm.innerHTML = this.insert.embedElm.innerHTML.replace("<br>", "")
-                this.renderEmbed(this.insert.embedElm)
+                const url = this.insert.embedElm.innerHTML.replace("<br>", "")
+                this.renderEmbed(url, this.insert.embedElm)
                 this.insert.embedElm = null
             }
         },
-        renderEmbed(elm) {
-            const embed = new EmbedJS({
-                input: elm,
-                plugins: [
-                    github(),
-                    noembed()
-                ],
-                inlineEmbed: 'all'
-            })
-            embed.render();
+        renderEmbed(url, elm) {
+            elm.innerHTML = `
+            <a href="${url}">${url}</a>
+            <div class="gist-embed-iframe"></div>
+            `;
+            Gist.get(url)
+                .then((result) => {
+                    const id = randomstring.generate();
+                    const iframe = document.createElement('iframe');
+                    const html = result.content;
+                    const iframeContainer = elm.getElementsByClassName('gist-embed-iframe')[0]
+                    iframeContainer.appendChild(iframe);
+                    iframe.id = id;
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write(html);
+                    iframe.contentWindow.document.close();
+
+                    const cssLink = document.createElement("link");
+                    cssLink.href = "https://assets-cdn.github.com/assets/gist-embed-1baaff35daab552f019ad459494450f1.css"; 
+                    cssLink.rel = "stylesheet"; 
+                    cssLink.type = "text/css"; 
+                    iframe.contentWindow.document.head.appendChild(cssLink);
+                    iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+                })
         },
         inputFilter(newFile, oldFile, prevent) {
             if (newFile && !oldFile) {
