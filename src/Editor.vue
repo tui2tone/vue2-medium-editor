@@ -1,24 +1,33 @@
 <template>
     <div>
+        <!-- Editor Mode -->
         <div class="medium-editor-container" v-if="!readOnly">
-            <insert-image v-if="editor" :uploadUrl="options.uploadUrl" :onChange="triggerChange" v-on:uploaded="uploadedCallback" :editorRef="$refs.editor" :editor="editor"></insert-image>
-            <list-handler v-if="editor" :editor="editor" :onChange="triggerChange"></list-handler>
-            <div class="editor" v-bind:class="{'has-content': hasContent}" v-html="prefill" ref="editor">
+            <insert-embed v-if="editor" 
+                :uploadUrl="options.uploadUrl"
+                :onChange="triggerChange"
+                :editorRef="$refs.editor"
+                :editor="editor"
+                v-on:uploaded="uploadedCallback"></insert-embed>
+            <list-handler v-if="editor"
+                :editor="editor"
+                :onChange="triggerChange"></list-handler>
+            <div class="editor" 
+                v-bind:class="editorClass"
+                v-html="prefill"
+                ref="editor">
             </div>
         </div>
-        <div class="medium-editor-container" v-if="readOnly">
-            <div class="editor read-only has-content" ref="content" v-html="prefill">
-            </div>
-        </div>
+        <!-- Read Only Mode -->
+        <read-mode v-if="readOnly" :content="prefill"></read-mode>
     </div>
 </template>
 
 <script>
-import MediumEditor from "medium-editor";
-import InsertImage from "./libs/InsertImage";
-import ListHandler from "./libs/ListHandler";
-import _ from "underscore";
-import Gist from 'pure-gist-embed';
+import MediumEditor from 'medium-editor';
+import InsertEmbed from './libs/InsertEmbed';
+import ListHandler from './libs/ListHandler';
+import ReadMode from './libs/ReadMode';
+import _ from 'underscore';
 
 export default {
   name: "medium-editor",
@@ -41,17 +50,21 @@ export default {
   computed: {
     editorOptions() {
       return _.extend(this.defaultOptions, this.options);
+    },
+    editorClass() {
+        return {
+            'has-content': this.hasContent
+        }
     }
   },
   components: {
-    InsertImage,
-    ListHandler
+    InsertEmbed,
+    ListHandler,
+    ReadMode
   },
   mounted() {
     if (!this.readOnly) {
       this.createElm();
-    } else {
-      this.renderReadMode();
     }
   },
   methods: {
@@ -90,26 +103,8 @@ export default {
       }
     },
     uploadedCallback(url) {
+      console.log("callback")
       this.$emit("uploaded", url);
-    },
-    renderReadMode() {
-        // Render Embed
-      const editorEmbeds = this.$refs.content.getElementsByClassName(
-        "editor-embed"
-      );
-        for (let i = 0; i < editorEmbeds.length; i++) {
-            const nextElm = editorEmbeds[i].nextElementSibling
-            const link = editorEmbeds[i].getElementsByTagName('a')[0]
-            if(link) {
-                const url = link.getAttribute('href')
-                nextElm.outerHTML = ''
-
-                this.renderEmbed(url, editorEmbeds[i])
-            }
-        }
-    },
-    renderEmbed(url, elm) {
-        Gist.embed(url, elm)
     }
   },
   destroyed() {

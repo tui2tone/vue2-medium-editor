@@ -1,5 +1,6 @@
+@import url('https://assets-cdn.github.com/assets/gist-embed-1baaff35daab552f019ad459494450f1.css');
 
-* {
+.medium-editor-container * {
     outline: none;
     box-sizing: border-box;
 }
@@ -217,8 +218,6 @@
 .medium-editor-placeholder:after {
     color: #222526;
 }
-
-@import url('https://gist.github.com/assets/embed-0af287a4b5c981db301049e56f06e5d3.css');
 
 .medium-editor-container * {
     outline: none;
