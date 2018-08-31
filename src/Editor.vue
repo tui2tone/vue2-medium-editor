@@ -2,17 +2,17 @@
     <div>
         <!-- Editor Mode -->
         <div class="medium-editor-container" v-if="!readOnly">
-            <insert-image v-if="editor" 
+            <insert-embed v-if="editor" 
                 :uploadUrl="options.uploadUrl"
                 :onChange="triggerChange"
-                v-on:uploaded="uploadedCallback"
                 :editorRef="$refs.editor"
-                :editor="editor"></insert-image>
+                :editor="editor"
+                v-on:uploaded="uploadedCallback"></insert-embed>
             <list-handler v-if="editor"
                 :editor="editor"
                 :onChange="triggerChange"></list-handler>
             <div class="editor" 
-                v-bind:class="editoerClass"
+                v-bind:class="editorClass"
                 v-html="prefill"
                 ref="editor">
             </div>
@@ -24,7 +24,7 @@
 
 <script>
 import MediumEditor from 'medium-editor';
-import InsertImage from './libs/InsertImage';
+import InsertEmbed from './libs/InsertEmbed';
 import ListHandler from './libs/ListHandler';
 import ReadMode from './libs/ReadMode';
 import _ from 'underscore';
@@ -58,7 +58,7 @@ export default {
     }
   },
   components: {
-    InsertImage,
+    InsertEmbed,
     ListHandler,
     ReadMode
   },
@@ -103,6 +103,7 @@ export default {
       }
     },
     uploadedCallback(url) {
+      console.log("callback")
       this.$emit("uploaded", url);
     }
   },
