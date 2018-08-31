@@ -56,6 +56,9 @@ export default {
             if(this.insert.isToggle) {
                 this.editor.pasteHTML(`<p class="editor-embed"><br></p>`, { cleanAttrs: [], cleanTags: [], unwrapTags: []})
                 this.embedElm = this.editor.getSelectedParentElement()
+                
+                this.insert.isToggle = false
+                this.insert.isShow = false
             }
         },
         detectEmbed(e) {
@@ -63,9 +66,11 @@ export default {
                 const url = this.embedElm.innerHTML.replace("<br>", "")
                 this.renderEmbed(url, this.embedElm)
                 this.embedElm = null
+                this.insert.isShow = false
             }
         },
         renderEmbed(url, elm) {
+
             elm.innerHTML = `
             <a href="${url}">${url}</a>
             <div class="gist-embed-iframe"></div>
@@ -88,6 +93,12 @@ export default {
                     cssLink.type = "text/css"; 
                     iframe.contentWindow.document.head.appendChild(cssLink);
                     iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+
+                    setTimeout(() => {
+                        const focused = this.editor.getSelectedParentElement()
+                        const currentPos = focused.getBoundingClientRect()
+                        this.window.scrollTo(0, currentPos.top - currentPos.x);
+                    }, 100)
                 })
         }
     },
@@ -97,6 +108,13 @@ export default {
     },
     destroyed() {
         this.unsubscribe()
+    },
+    beforeMount () {
+        this.window = window;
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy () {
+        window.removeEventListener('scroll', this.handleScroll);
     }
 }
 </script>
