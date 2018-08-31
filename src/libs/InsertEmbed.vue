@@ -16,7 +16,8 @@
                     v-on:uploaded="uploadCallback"
                     v-on:imageClick="imageClickHandler"
                 ></insert-image>
-                <insert-gist :editor="editor" :insert="insert"></insert-gist>
+                <insert-gist :editor="editor"
+                    v-on:onChange="onChange" :insert="insert"></insert-gist>
             </div>
         </div>
         <image-position

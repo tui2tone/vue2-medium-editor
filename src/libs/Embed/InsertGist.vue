@@ -98,6 +98,7 @@ export default {
                         const focused = this.editor.getSelectedParentElement()
                         const currentPos = focused.getBoundingClientRect()
                         this.window.scrollTo(0, currentPos.top - currentPos.x);
+                        this.$emit('onChange')
                     }, 100)
                 })
         }
