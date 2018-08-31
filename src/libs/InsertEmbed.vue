@@ -107,6 +107,16 @@ export default {
                 this.toggle();
             }
 
+            if(e.keyCode == 13) {
+                const focused = this.editor.getSelectedParentElement()
+                const nextElm = focused.nextElementSibling
+                const prevElm = focused.previousElementSibling
+
+                if(nextElm.className.indexOf('editor-image-description') > -1 && prevElm.className.indexOf('editor-image') > -1) {
+                    nextElm.parentNode.insertBefore(nextElm, focused);
+                }
+            }
+
             this.handler.isShow = false
             if(e.target.className.indexOf('editor-image-description') <= -1) {
                 const editorImages = this.editor.getFocusedElement().getElementsByClassName('editor-image')

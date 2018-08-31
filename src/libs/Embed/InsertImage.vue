@@ -87,6 +87,7 @@ export default {
                         handlerVm.sizingHandler(this)
                     })
                 }
+                this.insert.isShow = false;
             }
         },
         sizingHandler(elm) {
