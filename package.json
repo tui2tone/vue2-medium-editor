@@ -1,6 +1,6 @@
 {
   "name": "vue2-content-editor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "./src/Editor.vue",
   "scripts": {
     "serve": "vue-cli-service serve",
