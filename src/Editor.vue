@@ -42,10 +42,10 @@ export default {
         placeholder: {
           text: "Write something great!!"
         },
-        uploadUrl: "",
-        uploadUrlHeader: {},
+        uploadUrl: "https://api.imgur.com/3/image",
+        uploadUrlHeader: {'Authorization': 'Client-ID db856b43cc7f441'},
         file_input_name: "image",
-        imgur: false,
+        imgur: true,
         toolbar: {
           buttons: ["bold", "italic", "quote", "h1", "h2", "h3", "h4", "h5"]
         }
