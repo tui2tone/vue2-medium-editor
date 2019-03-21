@@ -5,6 +5,8 @@
         extensions="gif,jpg,jpeg,png,webp"
         accept="image/png,image/gif,image/jpeg,image/webp"
         :post-action="uploadUrl"
+        :headers="uploadUrlHeader"
+        :name="file_input_name"
         :multiple="true"
         :size="1024 * 1024 * 10"
         v-model="insert.files"
@@ -28,6 +30,9 @@ export default {
         'editor',
         'insert',
         'uploadUrl',
+        'uploadUrlHeader',
+        'file_input_name',
+        'imgur_bool',
         'editorRef',
         'handler'
     ],
@@ -130,7 +135,11 @@ export default {
             
             // Image Upload Successful
             if(newFile && newFile.success) {
-                this.addImage(newFile.response.url)
+                if(this.imgur_bool) {
+                    this.addImage(newFile.response.data.link)
+                } else {
+                    this.addImage(newFile.response.url)
+                }
             }
         }
     },

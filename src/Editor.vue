@@ -4,6 +4,9 @@
         <div class="medium-editor-container" v-if="!readOnly">
             <insert-embed v-if="editor" 
                 :uploadUrl="options.uploadUrl"
+                :uploadUrlHeader="options.uploadUrlHeader"
+                :file_input_name="options.file_input_name"
+                :imgur_bool="options.imgur"
                 :onChange="triggerChange"
                 :editorRef="$refs.editor"
                 :editor="editor"
@@ -39,6 +42,10 @@ export default {
         placeholder: {
           text: "Write something great!!"
         },
+        uploadUrl: "",
+        uploadUrlHeader: {},
+        file_input_name: "image",
+        imgur: false,
         toolbar: {
           buttons: ["bold", "italic", "quote", "h1", "h2", "h3", "h4", "h5"]
         }
