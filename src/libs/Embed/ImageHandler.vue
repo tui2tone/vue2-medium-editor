@@ -2,6 +2,8 @@
     <file-upload
         class="btn-toggle"
         :post-action="uploadUrl"
+        :headers="uploadUrlHeader"
+        :name="file_input_name"
         extensions="gif,jpg,jpeg,png,webp"
         accept="image/png,image/gif,image/jpeg,image/webp"
         :multiple="true"

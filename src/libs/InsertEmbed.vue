@@ -12,6 +12,9 @@
                     :insert="insert"
                     :editorRef="editorRef"
                     :uploadUrl="uploadUrl"
+                    :uploadUrlHeader="uploadUrlHeader"
+                    :file_input_name="file_input_name"
+                    :imgur_bool="imgur_bool"
                     :handler="handler"
                     v-on:uploaded="uploadCallback"
                     v-on:imageClick="imageClickHandler"
@@ -72,6 +75,9 @@ export default {
     props: [
         'editor',
         'uploadUrl',
+        'uploadUrlHeader',
+        'file_input_name',
+        'imgur_bool',
         'editorRef',
         'onChange'
     ],
