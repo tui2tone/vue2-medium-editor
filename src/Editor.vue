@@ -46,7 +46,7 @@ export default {
       hasContent: false
     };
   },
-  props: ["options", "onChange", "prefill", "readOnly"],
+  props: ["options", "onChange", "prefill", "readOnly", "content"],
   computed: {
     editorOptions() {
       return _.extend(this.defaultOptions, this.options);
@@ -86,7 +86,7 @@ export default {
       this.editor.destroy();
     },
     triggerChange() {
-      const content = this.editor.getContent();
+      this.content = this.editor.getContent();
 
       setTimeout(() => {
         if (/<[a-z][\s\S]*>/i.test(content)) {
