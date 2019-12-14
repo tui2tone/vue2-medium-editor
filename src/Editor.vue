@@ -89,7 +89,7 @@ export default {
       this.content = this.editor.getContent();
 
       setTimeout(() => {
-        if (/<[a-z][\s\S]*>/i.test(content)) {
+        if (/<[a-z][\s\S]*>/i.test(this.content)) {
           this.hasContent = true;
         } else {
           this.hasContent = false;
