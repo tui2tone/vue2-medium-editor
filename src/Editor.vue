@@ -96,10 +96,10 @@ export default {
         }
       }, 0);
 
-      this.$emit("input", content);
+      this.$emit("input", this.content);
 
       if (this.onChange) {
-        this.onChange(content);
+        this.onChange(this.content);
       }
     },
     uploadedCallback(url) {
