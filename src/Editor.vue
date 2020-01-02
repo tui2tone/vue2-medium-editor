@@ -46,7 +46,7 @@ export default {
       hasContent: false
     };
   },
-  props: ["options", "onChange", "prefill", "readOnly"],
+  props: ["options", "onChange", "prefill", "readOnly", "content"],
   computed: {
     editorOptions() {
       return _.extend(this.defaultOptions, this.options);
@@ -86,20 +86,20 @@ export default {
       this.editor.destroy();
     },
     triggerChange() {
-      const content = this.editor.getContent();
+      this.content = this.editor.getContent();
 
       setTimeout(() => {
-        if (/<[a-z][\s\S]*>/i.test(content)) {
+        if (/<[a-z][\s\S]*>/i.test(this.content)) {
           this.hasContent = true;
         } else {
           this.hasContent = false;
         }
       }, 0);
 
-      this.$emit("input", content);
+      this.$emit("input", this.content);
 
       if (this.onChange) {
-        this.onChange(content);
+        this.onChange(this.content);
       }
     },
     uploadedCallback(url) {
