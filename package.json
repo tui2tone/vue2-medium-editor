@@ -24,7 +24,7 @@
     "medium-editor": "^5.23.3",
     "pure-gist-embed": "^1.0.3",
     "randomstring": "^1.1.5",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "vue": "^2.5.16",
     "vue-upload-component": "^2.8.9"
   },
